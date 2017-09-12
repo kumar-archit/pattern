@@ -1,4 +1,6 @@
+import matplotlib.pyplot as plt
 import numpy as np
+<<<<<<< HEAD
 import pylab as pl
 import glob
 import matplotlib
@@ -62,3 +64,27 @@ for i in range(0,3):
     print() 
 for i in range(0,2):
     print(cov0[i][0], cov0[i][1])
+=======
+
+t = np.arange(0.0, 2.0, 0.01)
+s1 = np.sin(2*np.pi*t)
+s2 = np.sin(4*np.pi*t)
+
+plt.figure(1)
+plt.subplot(211)
+plt.plot(t, s1)
+plt.subplot(212)
+plt.plot(t, 2*s1)
+
+plt.figure(2)
+plt.plot(t, s2)
+
+# now switch back to figure 1 and make some changes
+plt.figure(1)
+plt.subplot(211)
+plt.plot(t, s2, 's')
+ax = plt.gca()
+ax.set_xticklabels([])
+
+plt.show()
+>>>>>>> 220ed680354ebd9eafc523bc04eb08d98658c120
