@@ -1,12 +1,36 @@
 import matplotlib.pyplot as plt
 import numpy as np
-<<<<<<< HEAD
 import pylab as pl
 import glob
 import matplotlib
 import matplotlib.cm as cm
 import matplotlib.mlab as mlab
-import matplotlib.pyplot as plt
+import math
+avg=[]
+cov0=[[0,0],[0,0]]
+cov=[]
+cinv=[]
+x=[]
+W=[]
+w=[]
+n=[0,0,0]
+col=["red","blue","green"]
+k=0
+def g(i,j,cov1,cov2):
+    ci=np.linalg.inv(cov1)
+    cj=np.linalg.inv(cov2)
+    W=np.subtract(cj,ci)
+    W*=0.5
+    w=np.subtract(np.dot(ci,avg[i]),np.dot(cj,avg[j]))
+    w=np.transpose(w)
+    w0=-0.5*math.log(np.linalg.det(cov1)/np.linalg.det(cov2))
+    w0-=0.5*np.dot(np.dot(np.transpose(avg[i]),ci),avg[i])
+    w0+=0.5*np.dot(np.dot(np.transpose(avg[j]),cj),avg[j])
+    w0+=math.log(n[i]/n[j])
+    #print(W, w, w0)
+    X = np.linspace(-30,30)
+    Y = np.linspace(-30,30)[:, None]
+    plt.contour(X,Y.ravel(),W[0][0]*X*X+W[1][1]*Y*Y+(W[1][0]+W[0][1])*X*Y+w[0]*X+w[1]*Y+w0,[0])
 def co(a,b,n):
     x0=0.0
     y0=0.0
@@ -16,21 +40,17 @@ def co(a,b,n):
         y0+=b[j]
     x0/=n
     y0/=n
+    avg.append([x0,y0])
     for j in range(0,n):
         s+=(a[j]-x0)*(b[j]-y0)
     s/=n
     return s
-
-path = '/media/avi224/Local Disk/Sem5/CS669/rd_group13/*.txt'   
-cov0=[[0,0],[0,0]]
-cov=[]
+path = '/media/avi224/Local Disk/Sem5/CS669/LS_Group13/*.txt'   
 cov.append([[0,0],[0,0]])
 cov.append([[0,0],[0,0]])
 cov.append([[0,0],[0,0]])
-x=[]
 files=glob.glob(path)
-i=0
-n=[0,0,0]   
+i=0  
 for file in files:
     x.append([])
     f=open(file,'r')
@@ -46,45 +66,16 @@ for file in files:
     cov[i][1][1]=co(x[i][1],x[i][1],n[i])
     f.close()
     i+=1
-X,Y=np.meshgrid(x[0][0],x[0][1])
-plt.figure()
-CS=plt.contour(X,Y,Z)
-i=0
-while i<3:
+for i in range(0,3):
 	pl.scatter(x[i][0],x[i][1])
-	i+=1
-#pl.show()
 for i in range(0,3):
-    for j in range(0,2):
-        for k in range(0,2):
-            cov0[j][k]+=cov[i][j][k]/3.0;
+    cinv.append(np.linalg.inv(cov[i]))
+for j in range(0,2):
+    for k in range(0,2):
+        for i in range(0,3):
+            cov0[j][k]+=cov[i][j][k]
+        cov0[j][k]/=3.0
 for i in range(0,3):
-    for j in range(0,2):
-        print(cov[i][j][0], cov[i][j][1])
-    print() 
-for i in range(0,2):
-    print(cov0[i][0], cov0[i][1])
-=======
-
-t = np.arange(0.0, 2.0, 0.01)
-s1 = np.sin(2*np.pi*t)
-s2 = np.sin(4*np.pi*t)
-
-plt.figure(1)
-plt.subplot(211)
-plt.plot(t, s1)
-plt.subplot(212)
-plt.plot(t, 2*s1)
-
-plt.figure(2)
-plt.plot(t, s2)
-
-# now switch back to figure 1 and make some changes
-plt.figure(1)
-plt.subplot(211)
-plt.plot(t, s2, 's')
-ax = plt.gca()
-ax.set_xticklabels([])
-
-plt.show()
->>>>>>> 220ed680354ebd9eafc523bc04eb08d98658c120
+    #g(i,(i+1)%3,cov[i],cov[(i+1)%3])
+    g(i,(i+1)%3,cov0,cov0)
+pl.show()
