@@ -28,8 +28,8 @@ def g(i,j,cov1,cov2):
     w0+=0.5*np.dot(np.dot(np.transpose(avg[j]),cj),avg[j])
     w0+=math.log(n[i]/n[j])
     #print(W, w, w0)
-    X = np.linspace(-300,2500)
-    Y = np.linspace(-300,3000)[:, None]
+    X = np.linspace(-15,15)
+    Y = np.linspace(-15,15)[:, None]
     plt.contour(X,Y.ravel(),W[0][0]*X*X+W[1][1]*Y*Y+(W[1][0]+W[0][1])*X*Y+w[0]*X+w[1]*Y+w0,[0])
 def co(a,b,n):
     x0=0.0
@@ -45,8 +45,7 @@ def co(a,b,n):
         s+=(a[j]-x0)*(b[j]-y0)
     s/=n
     return s
-path = '/media/avi224/Local Disk/Sem5/CS669/pattern/assignment1/rd_group13/Train/*.txt'   
-cov.append([[0,0],[0,0]])
+path = '/media/avi224/Local Disk/Sem5/CS669/pattern/assignment1/solution2/Train/*.txt'   
 cov.append([[0,0],[0,0]])
 cov.append([[0,0],[0,0]])
 files=glob.glob(path)
@@ -66,16 +65,16 @@ for file in files:
     cov[i][1][1]=co(x[i][1],x[i][1],n[i])
     f.close()
     i+=1
-for i in range(0,3):
+for i in range(0,2):
     pl.scatter(x[i][0],x[i][1])
-for i in range(0,3):
+for i in range(0,2):
     cinv.append(np.linalg.inv(cov[i]))
 for j in range(0,2):
     for k in range(0,2):
-        for i in range(0,3):
+        for i in range(0,2):
             cov0[j][k]+=cov[i][j][k]
-        cov0[j][k]/=3.0
-for i in range(0,3):
-    #g(i,(i+1)%3,cov[i],cov[(i+1)%3])
-    g(i,(i+1)%3,cov0,cov0)
+        cov0[j][k]/=2.0
+for i in range(0,2):
+    #g(i,(i+1)%2,cov[i],cov[(i+1)%2])
+    g(i,(i+1)%2,cov0,cov0)
 pl.show()

@@ -28,8 +28,8 @@ def g(i,j,cov1,cov2):
     w0+=0.5*np.dot(np.dot(np.transpose(avg[j]),cj),avg[j])
     w0+=math.log(n[i]/n[j])
     #print(W, w, w0)
-    X = np.linspace(-300,2500)
-    Y = np.linspace(-300,3000)[:, None]
+    X = np.linspace(-25,25)
+    Y = np.linspace(-25,25)[:, None]
     plt.contour(X,Y.ravel(),W[0][0]*X*X+W[1][1]*Y*Y+(W[1][0]+W[0][1])*X*Y+w[0]*X+w[1]*Y+w0,[0])
 def co(a,b,n):
     x0=0.0
@@ -45,7 +45,7 @@ def co(a,b,n):
         s+=(a[j]-x0)*(b[j]-y0)
     s/=n
     return s
-path = '/media/avi224/Local Disk/Sem5/CS669/pattern/assignment1/rd_group13/Train/*.txt'   
+path = '/media/avi224/Local Disk/Sem5/CS669/pattern/assignment1/ls_group13/Train/*.txt'   
 cov.append([[0,0],[0,0]])
 cov.append([[0,0],[0,0]])
 cov.append([[0,0],[0,0]])
