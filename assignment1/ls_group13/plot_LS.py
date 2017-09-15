@@ -16,7 +16,7 @@ w=[]
 n=[0,0,0]
 test=[]
 tot=0
-col=["red","blue","green"]
+col=["ro","bo","go"]
 k=0
 def fn(X,k):
     return -0.5*math.log(np.linalg.det(cinv[k]))+math.log(n[k]*1.0/tot)-0.5*np.dot(np.dot(np.transpose(np.subtract(X,avg[k])),cinv[k]),np.subtract(X,avg[k]))
@@ -72,7 +72,7 @@ for file in files:
     f.close()
     i+=1
 for i in range(0,3):
-    pl.scatter(x[i][0],x[i][1])
+    pl.plot(x[i][0],x[i][1],col[i])
 for i in range(0,3):
     cinv.append(np.linalg.inv(cov[i]))
 for j in range(0,2):
@@ -113,12 +113,23 @@ for i in range(0,3):
     correct+=cnt[i][i]
     print(cnt[i][0], cnt[i][1], cnt[i][2])
 print("classification accuracy:",correct/to)
+pr=0
+rec=0
+fm=0
 for i in range(0,3):
     to=0
     to1=0
     for j in range(0,3):
         to+=cnt[j][i]
         to1+=cnt[i][j]
-    print("precision of class",i+1,":",cnt[i][i]/to)
-    print("recall of class",i+1,":",cnt[i][i]/to1)
+    print("Precision of class",i+1,"=",cnt[i][i]/to)
+    pr+=cnt[i][i]/to
+    print("Recall of class",i+1,"=",cnt[i][i]/to1)
+    rec+=cnt[i][i]/to
+    print("F-Measure of class",i+1,"=",2*cnt[i][i]*cnt[i][i]/(to*to1))
+    fm+=2*cnt[i][i]*cnt[i][i]/(to*to1)
+    print()
+print("Mean precision=",pr/3)
+print("Mean recall=",rec/3)
+print("Mean F-Measure=",fm/3)
 pl.show()
