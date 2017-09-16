@@ -72,8 +72,6 @@ for file in files:
     f.close()
     i+=1
 for i in range(0,3):
-    pl.plot(x[i][0],x[i][1],col[i])
-for i in range(0,3):
     cinv.append(np.linalg.inv(cov[i]))
 for j in range(0,2):
     for k in range(0,2):
@@ -82,7 +80,10 @@ for j in range(0,2):
         cov0[j][k]/=3.0
 for i in range(0,3):
     #g(i,(i+1)%3,cov[i],cov[(i+1)%3])
+    pl.plot(x[i][0],x[i][1],col[i])
+    pl.plot(x[(i+1)%3][0],x[(i+1)%3][1],col[(i+1)%3])
     g(i,(i+1)%3,cov0,cov0)
+    pl.show()
 path = '/media/avi224/Local Disk/Sem5/CS669/pattern/assignment1/ls_group13/Test/*.txt'
 files=glob.glob(path)
 i=0

@@ -90,21 +90,6 @@ for i in range(0,3):
 for i in range(0,3):
     pl.plot(x[i][0],x[i][1],col[i])
     pl.plot(x[(i+1)%3][0],x[(i+1)%3][1],col[(i+1)%3])
-    g(i,(i+1)%3,cov1,cov1)
-    pl.show()
-
-    pl.plot(x[i][0],x[i][1],col[i])
-    pl.plot(x[(i+1)%3][0],x[(i+1)%3][1],col[(i+1)%3])
-    g(i,(i+1)%3,cov0,cov0)
-    pl.show()
-
-    pl.plot(x[i][0],x[i][1],col[i])
-    pl.plot(x[(i+1)%3][0],x[(i+1)%3][1],col[(i+1)%3])
-    g(i,(i+1)%3,cov2[i],cov2[(i+1)%3])
-    pl.show()
-
-    pl.plot(x[i][0],x[i][1],col[i])
-    pl.plot(x[(i+1)%3][0],x[(i+1)%3][1],col[(i+1)%3])
     g(i,(i+1)%3,cov[i],cov[(i+1)%3])
     pl.show()
 path = '/media/avi224/Local Disk/Sem5/CS669/pattern/assignment1/rd_group13/Test/*.txt'
