@@ -146,6 +146,7 @@ for i in range(0,3):
     pl.plot(x[i][0],x[i][1],col[i])
     pl.plot(x[(i+1)%3][0],x[(i+1)%3][1],col[(i+1)%3])
     g(i,(i+1)%3,cov1,cov1)
-    #for j in range(0,len(x[i])):
-     #   plt.contour(x[i][0][j],x[i][1][j],fn([x[i][0][j],x[i][1][j]],j))
+    X,Y=np.meshgrid(x[i][0],x[i][1])
+    Z=fn([X,Y],i)
+    plt.contour(X,Y,Z)
 pl.show()

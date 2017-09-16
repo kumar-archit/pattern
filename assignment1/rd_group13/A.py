@@ -142,4 +142,8 @@ for i in range(0,3):
 print("Mean precision=",pr/3)
 print("Mean recall=",rec/3)
 print("Mean F-Measure=",fm/3)
+for i in range(0,3):
+    pl.plot(x[i][0],x[i][1],col[i])
+    pl.plot(x[(i+1)%3][0],x[(i+1)%3][1],col[(i+1)%3])
+    g(i,(i+1)%3,cov1,cov1)
 pl.show()
