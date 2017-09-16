@@ -21,7 +21,7 @@ tot=0
 col=["ro","bo","go"]
 k=0
 def fn(X,k):
-    return -0.5*math.log(np.linalg.det(cinv[k]))+math.log(n[k]*1.0/tot)-0.5*np.dot(np.dot(np.transpose(np.subtract(X,avg[k])),cinv[k]),np.subtract(X,avg[k]))
+    return math.exp(-0.5*math.log(np.linalg.det(cinv[k]))+math.log(n[k]*1.0/tot)-0.5*np.dot(np.dot(np.transpose(np.subtract(X,avg[k])),cinv[k]),np.subtract(X,avg[k])))
 def g(i,j,cov1,cov2):
     ci=np.linalg.inv(cov1)
     cj=np.linalg.inv(cov2)
