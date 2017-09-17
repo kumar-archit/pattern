@@ -21,7 +21,7 @@ tot=0
 col=["ro","bo","go"]
 k=0
 def fn(X,k):
-    return math.exp(-0.5*math.log(np.linalg.det(cinv[k]))+math.log(n[k]*1.0/tot)-0.5*np.dot(np.dot(np.transpose(np.subtract(X,avg[k])),cinv[k]),np.subtract(X,avg[k])))
+    return (-0.5*math.log(np.linalg.det(cov[k]))+math.log(n[k]*1.0/tot)-0.5*np.dot(np.dot(np.transpose(np.subtract(X,avg[k])),cinv[k]),np.subtract(X,avg[k]))-math.log(2*np.pi))
 def g(i,j,cov1,cov2):
     ci=np.linalg.inv(cov1)
     cj=np.linalg.inv(cov2)
@@ -87,11 +87,11 @@ sig/=(2*2)
 cov1=np.multiply(cov1,sig)
 for i in range(0,2):
     cov2.append([[cov[i][0][0],0],[0,cov[i][1][1]]])
-for i in range(0,1):
-    pl.plot(x[i][0],x[i][1],col[i])
-    pl.plot(x[(i+1)%2][0],x[(i+1)%2][1],col[(i+1)%2])
-    g(i,(i+1)%2,cov[i],cov[(i+1)%2])
-    pl.show()
+# for i in range(0,1):
+#     pl.plot(x[i][0],x[i][1],col[i])
+#     pl.plot(x[(i+1)%2][0],x[(i+1)%2][1],col[(i+1)%2])
+#     g(i,(i+1)%2,cov[i],cov[(i+1)%2])
+#     pl.show()
 path = '/media/avi224/Local Disk/Sem5/CS669/pattern/assignment1/solution2/Test/*.txt'
 files=glob.glob(path)
 i=0
@@ -104,7 +104,7 @@ for file in files:
     i+=1
 cnt=[]
 for i in range(0,2):
-    cnt.append([0,0,0])
+    cnt.append([0,0])
 print("Confusion matrix:")
 to=0
 for i in range(0,2):
@@ -142,4 +142,16 @@ for i in range(0,2):
 print("Mean precision=",pr/2)
 print("Mean recall=",rec/2)
 print("Mean F-Measure=",fm/2)
-pl.show()
+xx = np.arange(-100,100,1)
+yy = np.arange(-20,120,1)
+tot=len(xx)*len(yy)
+Z=[[0] * len(xx) for i in range(len(yy))]
+for i in range(0,2):
+    pl.plot(x[i][0],x[i][1],col[i])
+    #pl.plot(x[(i+1)%3][0],x[(i+1)%3][1],col[(i+1)%3])
+    #g(i,(i+1)%3,cov1,cov1)
+    for j in range(0,len(xx)):
+        for k in range(0,len(yy)):
+            Z[k][j]=fn([xx[j],yy[k]],i)
+    plt.contour(xx,yy,Z,30)
+    plt.show()
