@@ -144,7 +144,7 @@ print("Mean recall=",rec/3)
 print("Mean F-Measure=",fm/3)
 xx = np.arange(-10,25,0.1)
 yy = np.arange(-15,20,0.1)
-Z=[[0] * len(yy) for i in range(len(xx))]
+Z=[[0] * len(xx) for i in range(len(yy))]
 tot=len(xx)*len(yy)
 for i in range(0,3):
     pl.plot(x[i][0],x[i][1],col[i])
