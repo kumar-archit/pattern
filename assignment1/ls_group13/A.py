@@ -19,9 +19,8 @@ n=[0,0,0]
 test=[]
 tot=0
 col=["ro","bo","go"]
-k=0
 def fn(X,k):
-    return math.exp(-0.5*math.log(np.linalg.det(cinv[k]))+math.log(n[k]*1.0/tot)-0.5*np.dot(np.dot(np.transpose(np.subtract(X,avg[k])),cinv[k]),np.subtract(X,avg[k])))
+    return (-0.5*math.log(np.linalg.det(cov1))+math.log(n[k]*1.0/tot)-0.5*np.dot(np.dot(np.transpose(np.subtract(X,avg[k])),cinv[k]),np.subtract(X,avg[k]))-math.log(2*math.pi))
 def g(i,j,cov1,cov2):
     ci=np.linalg.inv(cov1)
     cj=np.linalg.inv(cov2)
@@ -73,8 +72,6 @@ for file in files:
     cov[i][1][1]=co(x[i][1],x[i][1],n[i])
     f.close()
     i+=1
-for i in range(0,3):
-    cinv.append(np.linalg.inv(cov[i]))
 for j in range(0,2):
     for k in range(0,2):
         for i in range(0,3):
@@ -88,10 +85,12 @@ cov1=np.multiply(cov1,sig)
 for i in range(0,3):
     cov2.append([[cov[i][0][0],0],[0,cov[i][1][1]]])
 for i in range(0,3):
-    pl.plot(x[i][0],x[i][1],col[i])
-    pl.plot(x[(i+1)%3][0],x[(i+1)%3][1],col[(i+1)%3])
-    g(i,(i+1)%3,cov1,cov1)
-    pl.show()
+    cinv.append(np.linalg.inv(cov1))
+# for i in range(0,3):
+#     pl.plot(x[i][0],x[i][1],col[i])
+#     pl.plot(x[(i+1)%3][0],x[(i+1)%3][1],col[(i+1)%3])
+#     g(i,(i+1)%3,cov1,cov1)
+#     pl.show()
 path = '/media/avi224/Local Disk/Sem5/CS669/pattern/assignment1/ls_group13/Test/*.txt'
 files=glob.glob(path)
 i=0
@@ -102,6 +101,7 @@ for file in files:
         c,d=line.split()
         test[i].append([float(c),float(d)])
     i+=1
+    f.close()
 cnt=[]
 for i in range(0,3):
     cnt.append([0,0,0])
@@ -135,18 +135,25 @@ for i in range(0,3):
     print("Precision of class",i+1,"=",cnt[i][i]/to1)
     pr+=cnt[i][i]/to
     print("Recall of class",i+1,"=",cnt[i][i]/to)
-    rec+=cnt[i][i]/to
+    rec+=cnt[i][i]/to1
     print("F-Measure of class",i+1,"=",2*cnt[i][i]*cnt[i][i]/(to*to1))
     fm+=2*cnt[i][i]*cnt[i][i]/(to*to1)
     print()
 print("Mean precision=",pr/3)
 print("Mean recall=",rec/3)
 print("Mean F-Measure=",fm/3)
+xx = np.arange(-10,25,0.1)
+yy = np.arange(-15,20,0.1)
+Z=[[0] * len(yy) for i in range(len(xx))]
 for i in range(0,3):
     pl.plot(x[i][0],x[i][1],col[i])
-    pl.plot(x[(i+1)%3][0],x[(i+1)%3][1],col[(i+1)%3])
-    g(i,(i+1)%3,cov1,cov1)
-    X,Y=np.meshgrid(x[i][0],x[i][1])
-    Z=fn([X,Y],i)
-    plt.contour(X,Y,Z)
+    #pl.plot(x[(i+1)%3][0],x[(i+1)%3][1],col[(i+1)%3])
+    #g(i,(i+1)%3,cov1,cov1)
+    for j in range(0,len(xx)):
+        for k in range(0,len(yy)):
+            Z[k][j]=fn([xx[j],yy[k]],i)
+    pl.plot(x[i][0],x[i][1],col[i])
+    plt.contour(xx,yy,Z,100)
+    plt.show()
+    #C = plt.contour(X, Y, fn(X,Y,i), 8, colors='black', linewidth=.5)
 pl.show()
